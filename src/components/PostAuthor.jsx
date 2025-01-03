@@ -9,7 +9,7 @@ const postAuthor = () => {
             <img src={Avatar} alt="" />
         </div>
         <div className="post__author-details">
-            <h5>By: Dharm Kumar</h5>
+            <h5>By: Dharam</h5>
             <small>Just Now</small>
         </div>
     </Link>
