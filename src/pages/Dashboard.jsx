@@ -1,9 +1,41 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DUMMY_POSTS from '../dummy'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
+import Loader from '../components/Loader'
+import axios from 'axios'
 
 const Dashboard = () => {
-  const [posts , setPosts] = useState(DUMMY_POSTS)
+  const [posts , setPosts] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const {id} =useParams()
+  const {currentUser} = useContext(UserContext)
+  const navigate = useNavigate()
+  const token = currentUser?.token;
+  useEffect(()=>{
+    if (!token) {
+      navigate('/login')
+    }
+  },[])
+
+  useEffect(()=>{
+    const fetchPosts = async()=>{
+      setIsLoading(true)
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/posts/users/${id}`,{withCredentials:true,headers:{Authorization:`Bearer ${token}`}})
+        setPosts(response.data)
+      } catch (error) {
+        console.log(error);
+        
+      }
+      setIsLoading(false)
+    }
+    fetchPosts()
+  },[id])
+
+  if (isLoading) {
+    return <Loader/>
+  }
 
   return (
     <section className="dashboard">
@@ -14,14 +46,14 @@ const Dashboard = () => {
               return <article key={post.id} className="dashboard__post">
                 <div className="dashboard__post-info">
                   <div className="dashboard__post-thumbnail">
-                    <img src={post.thumbnail} alt="" />
+                    <img src={`${import.meta.env.VITE_APP_ASSETS_URL}/uploads/${post.thumbnail}`} alt="" />
                   </div>
                   <h5>{post.title} </h5>
                 </div>
                 <div className="dashboard__post-actions">
-                  <Link to={`/posts/${post.id}`} className='btn sm '>View</Link>
-                  <Link to={`/posts/${post.id}/edit`} className='btn sm primary'>Edit</Link>
-                  <Link to={`/posts/${post.id}/delete`} className='btn sm danger'>Delete</Link>
+                  <Link to={`/posts/${post._id}`} className='btn sm '>View</Link>
+                  <Link to={`/posts/${post._id}/edit`} className='btn sm primary'>Edit</Link>
+                  <Link to={`/posts/${post._id}/delete`} className='btn sm danger'>Delete</Link>
                 </div>
 
               </article>

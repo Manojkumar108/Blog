@@ -17,10 +17,12 @@ import EditPost from './pages/EditPost.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import AuthorPosts from './pages/AuthorPosts.jsx'
 import DeletePost from './pages/DeletePost.jsx'
+import TestEnv from './pages/TestEnv.jsx'
+import UserProvider from './context/UserContext.jsx'
 
 const router = createBrowserRouter([{
   path:'/',
-  element:<App/>,
+  element:<UserProvider><App/> </UserProvider>,
   errorElement:<ErrorPage/>,
   children:[
     {index:true,element:<Home/>},
@@ -36,6 +38,7 @@ const router = createBrowserRouter([{
     {path:'posts/:id/edit',element:<EditPost/>},
     {path:'posts/:id/delete',element:<DeletePost/>},
     {path:'posts/categories/:category',element:<CategoryPosts/>},
+    {path:'test',element:<TestEnv/>},
   ]
 
 }])

@@ -18,19 +18,25 @@ const Register = () => {
 
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const registerUser = async()=>{
+  const registerUser = async (e)=>{
     e.preventDefault()
     setError('')
       try {
-        const respones = await axios.post(`${process.env.REACT_APP_BASE_URL}/users/register`,userData)
-        const newUser = await respones.data;
+        const respone = await axios.post(`${import.meta.env.VITE_APP_BASE_URL}/users/register`,userData)
+        console.log("path",process.env.REACT_APP_BASE_URL);
+        
+        const newUser = await respone.data;
         console.log(newUser);
         if (!newUser) {
           setError("Could not register. please try again.")
         }
-        navigate('/')
+        navigate('/login')
       } catch (err) {
-        setError(err)
+        // console.log("error respones=>",err.response);
+        setError(err.response.data.msg)
+        console.log(process.env.REACT_APP_BASE_URL);
+        
+        
       }
     
 

@@ -554,3 +554,28 @@ input,select,textarea{
         width: 5rem;
     }
 }
+
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full-screen height */
+    background-color: #f5f5f5; /* Light background */
+  }
+  
+  .loader__spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(0, 0, 0, 0.1); /* Light border */
+    border-top-color: #3498db; /* Highlighted color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Spinning effect */
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg); /* Rotate full circle */
+    }
+  }
+  
